@@ -1,0 +1,61 @@
+from langgraph.graph import StateGraph, START, END
+from langchain_pollinations import ChatPollinations
+from typing import TypedDict, Annotated
+from langchain_core.messages import HumanMessage, BaseMessage
+
+
+from langgraph.graph.message import add_messages
+
+class ChatState(TypedDict):
+    #here we use add_message instead of operator.add as a reducer because add_message is more optimized specially for base messages
+    messages: Annotated[list[BaseMessage], add_messages]
+
+llm = ChatPollinations(
+    model = "nova-fast",
+    temperature = 0,
+    api_key="sk_UeqXda0p4Iy3KC6Y9zAvQ5TRPCB8ym4q"
+)
+
+
+def chat_node(state: ChatState):
+
+    #we take the query from the user
+    messages = state['messages']
+
+    #send it to llm
+    response = llm.invoke(messages)
+
+    #store the response
+    #we pass it in a list because we have defined messages as a list in our chatstate
+    #and we defined messages as list becuase we want to keep adding new messages in it
+    return {'messages' : [response]}
+
+
+#this is our main graph
+graph = StateGraph(ChatState)
+
+#adding nodes
+graph.add_node('chat_node', chat_node)
+
+#adding edges
+graph.add_edge(START, 'chat_node')
+graph.add_edge('chat_node', END)
+
+chatbot = graph.compile()
+
+initial_state = {
+    'messages': [HumanMessage(content = "What is the capital of india")]
+}
+
+chatbot.invoke(initial_state)
+
+while True:
+    
+    user_message = input('Type Here: ')
+
+    if user_message.lower() in ['quit', 'exit', 'end', 'bye']:
+        break
+
+    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]})
+
+    print('AI:' , response['messages'][-1].content)
