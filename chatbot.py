@@ -2,6 +2,11 @@ from langgraph.graph import StateGraph, START, END
 from langchain_pollinations import ChatPollinations
 from typing import TypedDict, Annotated
 from langchain_core.messages import HumanMessage, BaseMessage
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 
 from langgraph.graph.message import add_messages
@@ -13,7 +18,7 @@ class ChatState(TypedDict):
 llm = ChatPollinations(
     model = "nova-fast",
     temperature = 0,
-    api_key="sk_UeqXda0p4Iy3KC6Y9zAvQ5TRPCB8ym4q"
+    api_key = os.getenv("POLLINATIONS_API_KEY")
 )
 
 
