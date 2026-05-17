@@ -34,6 +34,8 @@ def chat_node(state: ChatState):
     #and we defined messages as list becuase we want to keep adding new messages in it
     return {'messages' : [response]}
 
+#this is something that will help our chatbot to remember past things
+checkpointer = MemorySaver()
 
 #this is our main graph
 graph = StateGraph(ChatState)
@@ -45,13 +47,13 @@ graph.add_node('chat_node', chat_node)
 graph.add_edge(START, 'chat_node')
 graph.add_edge('chat_node', END)
 
-chatbot = graph.compile()
+chatbot = graph.compile(checkpointer=checkpointer)
 
-initial_state = {
-    'messages': [HumanMessage(content = "What is the capital of india")]
-}
+#thread is something while tells the chatbot which person's context are we talking about
+#so thread is basically a person 
+#and there can be multiple person so each thread id represents a person
 
-chatbot.invoke(initial_state)
+thread_id = '1' 
 
 while True:
     
@@ -60,6 +62,8 @@ while True:
     if user_message.lower() in ['quit', 'exit', 'end', 'bye']:
         break
 
-    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]})
+    config = {'configurable': {'thread_id' : thread_id}}
+
+    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]}, config=config)
 
     print('AI:' , response['messages'][-1].content)
