@@ -4,7 +4,7 @@ from typing import TypedDict, Annotated
 from langchain_core.messages import HumanMessage, BaseMessage
 from dotenv import load_dotenv
 import os
-from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.memory import InMemorySaver
 
 load_dotenv()
 
@@ -35,7 +35,7 @@ def chat_node(state: ChatState):
     return {'messages' : [response]}
 
 #this is something that will help our chatbot to remember past things
-checkpointer = MemorySaver()
+checkpointer = InMemorySaver()
 
 #this is our main graph
 graph = StateGraph(ChatState)
