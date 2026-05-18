@@ -1,9 +1,6 @@
 streamlit
-langgraph
-langchain
-langchain-core
-langchain-community
-dotenv
-langgraph.checkpoint.message
-typing
-langchain_pollinations
+langgraph==0.2.56
+langchain==0.3.7
+langchain-core==0.3.18
+langchain-community==0.3.7
+python-dotenv
