@@ -55,6 +55,10 @@ chatbot = graph.compile(checkpointer=checkpointer)
 
 thread_id = '1' 
 
+
+#the part after this wont be needed when we are using frontend on streamlit,
+#this is for the terminal part only
+
 while True:
     
     user_message = input('Type Here: ')
