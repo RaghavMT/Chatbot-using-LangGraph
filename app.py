@@ -26,7 +26,7 @@ if user_input:
     #now we fetch it from the llm
     response = chatbot.invoke({'messages': [HumanMessage(content=user_input)]}, config=CONFIG)
 
-    ai_message = response['message'][-1].content
+    ai_message = response['messages'][-1].content
 
     #first add the ai_message into message_history
     st.session_state['message_history'].append({'role' : 'assistant', 'content' : ai_message})
