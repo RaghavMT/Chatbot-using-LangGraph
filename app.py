@@ -36,10 +36,12 @@ if user_input:
     #we will now use streaming in python to smothen out our chatbot
     with st.chat_message('assistant'):
 
-        ai_message = st.write_stream{
+        ai_message = st.write_stream(
             #so when we get stream object in return, it contains 2 components 1 is message_chunk and another is metadata,
             #and now we are iterating over these components to stream our output
             message.chunk.content for message_chunk, metadata in chatbot.stream(
-
+                {'messages' : [HumanMessage(content=user_input)]},
+                config={'configurable' : {'thread_id' : 'thread-1'}},
+                stream_mode= 'messages'
             )
-        }
+        )
