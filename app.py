@@ -34,4 +34,11 @@ if user_input:
 #        st.text(ai_message)
 
     #we will now use streaming in python to smothen out our chatbot
-    
+    with st.chat_message('assistant'):
+
+        ai_message = st.write_stream{
+            message.chunk.content for message_chunk, metadata in chatbot.stream(
+                
+            )
+        }
+
