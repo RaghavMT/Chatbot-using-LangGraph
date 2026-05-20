@@ -37,8 +37,9 @@ if user_input:
     with st.chat_message('assistant'):
 
         ai_message = st.write_stream{
+            #so when we get stream object in return, it contains 2 components 1 is message_chunk and another is metadata,
+            #and now we are iterating over these components to stream our output
             message.chunk.content for message_chunk, metadata in chatbot.stream(
-                
+
             )
         }
-
