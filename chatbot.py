@@ -68,6 +68,24 @@ while True:
 
     config = {'configurable': {'thread_id' : thread_id}}
 
-    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]}, config=config)
+    
+#    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]}, config=config)
 
-    print('AI:' , response['messages'][-1].content)
+#    print('AI:' , response['messages'][-1].content)
+    
+    #trying to implement it using streaming
+    full_response = ""
+
+    for message_chunk, metadata in chatbot.stream(
+        {'messages':[HumanMessage(content=user_message)]},
+        config={'configurable' : {'thread_id' : 'thread_1'}},
+        stream_mode='messages'
+    ):
+
+        chunk = message_chunk.content
+
+        if chunk:
+            print(chunk, end=" ", flush = True)
+            full_response += chunk
+    
+    print("\n")
