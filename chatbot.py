@@ -53,39 +53,39 @@ chatbot = graph.compile(checkpointer=checkpointer)
 #so thread is basically a person 
 #and there can be multiple person so each thread id represents a person
 
-thread_id = '1' 
+# thread_id = '1' 
 
 
 #the part after this wont be needed when we are using frontend on streamlit,
 #this is for the terminal part only
 
-while True:
-    
-    user_message = input('Type Here: ')
+#    while True:
+ #       
+  #      user_message = input('Type Here: ')
+#
+ #       if user_message.lower() in ['quit', 'exit', 'end', 'bye']:
+  #          break
+#
+ #       config = {'configurable': {'thread_id' : thread_id}}
+#
+ #       
+    #    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]}, config=config)
 
-    if user_message.lower() in ['quit', 'exit', 'end', 'bye']:
-        break
-
-    config = {'configurable': {'thread_id' : thread_id}}
-
-    
-#    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]}, config=config)
-
-#    print('AI:' , response['messages'][-1].content)
-    
-    #trying to implement it using streaming
-    full_response = ""
-
-    for message_chunk, metadata in chatbot.stream(
-        {'messages':[HumanMessage(content=user_message)]},
-        config={'configurable' : {'thread_id' : 'thread_1'}},
-        stream_mode='messages'
-    ):
-
-        chunk = message_chunk.content
-
-        if chunk:
-            print(chunk, end=" ", flush = True)
-            full_response += chunk
-    
-    print("\n")
+    #    print('AI:' , response['messages'][-1].content)
+        
+        #trying to implement it using streaming
+  #      full_response = ""
+#
+ #       for message_chunk, metadata in chatbot.stream(
+  #          {'messages':[HumanMessage(content=user_message)]},
+   #         config={'configurable' : {'thread_id' : 'thread_1'}},
+    #        stream_mode='messages'
+     #   ):
+#
+ #           chunk = message_chunk.content
+#
+ #           if chunk:
+  #              print(chunk, end=" ", flush = True)
+   #             full_response += chunk
+    #    
+     #   print("\n")
