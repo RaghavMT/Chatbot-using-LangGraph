@@ -13,6 +13,9 @@ def generate_thread_id():
 if 'message_history' not in st.session_state:
     st.session_state['message_history'] = []
 
+if 'thread_id' not in st.session_state:
+    st.session_state['thread_id'] = generate_thread_id()
+
 #*****Side bar UI****
 st.sidebar.title("LangGraph Chatbot")
 
@@ -47,7 +50,7 @@ if user_input:
     #we will now use streaming in python to smothen out our chatbot
 
     #we are using persistence so here we define our thread
-    CONFIG = {'configurable' : {'thread_id' : 'thread-1'}}
+    CONFIG = {'configurable' : {'thread_id' : st.session_state['thread_id']}}
 
 
     with st.chat_message('assistant'):
@@ -57,7 +60,7 @@ if user_input:
             #and now we are iterating over these components to stream our output
             message_chunk.content for message_chunk, metadata in chatbot.stream(
                 {'messages' : [HumanMessage(content=user_input)]},
-                config={'configurable' : {'thread_id' : 'thread-1'}},
+                config=CONFIG,
                 stream_mode= 'messages'
             )
         )
