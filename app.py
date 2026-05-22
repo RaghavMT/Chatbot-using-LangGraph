@@ -2,9 +2,6 @@ import streamlit as st
 from chatbot import chatbot
 from langchain_core.messages import HumanMessage
 
-#we are using persistence so here we define our thread
-CONFIG = {'configurable' : {'thread_id' : 'thread-1'}}
-
 #st.session is basically a dictoinory that saves previously run data
 if 'message_history' not in st.session_state:
     st.session_state['message_history'] = []
@@ -41,6 +38,11 @@ if user_input:
 #        st.text(ai_message)
 
     #we will now use streaming in python to smothen out our chatbot
+
+    #we are using persistence so here we define our thread
+    CONFIG = {'configurable' : {'thread_id' : 'thread-1'}}
+
+
     with st.chat_message('assistant'):
 
         ai_message = st.write_stream(
