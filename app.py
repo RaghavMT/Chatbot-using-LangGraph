@@ -1,6 +1,13 @@
 import streamlit as st
 from chatbot import chatbot
 from langchain_core.messages import HumanMessage
+import uuid
+
+# utility function
+
+def generate_thread_id():
+    thread_id = uuid.uuid4()
+    return thread_id
 
 #st.session is basically a dictoinory that saves previously run data
 if 'message_history' not in st.session_state:
