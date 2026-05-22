@@ -39,12 +39,11 @@ if user_input:
         ai_message = st.write_stream(
             #so when we get stream object in return, it contains 2 components 1 is message_chunk and another is metadata,
             #and now we are iterating over these components to stream our output
-            message.chunk.content for message_chunk, metadata in chatbot.stream(
+            message_chunk.content for message_chunk, metadata in chatbot.stream(
                 {'messages' : [HumanMessage(content=user_input)]},
                 config={'configurable' : {'thread_id' : 'thread-1'}},
                 stream_mode= 'messages'
             )
         )
 
-    st.session_state['message+history'].append({'role' : 'assistant',
-                                                'content' : ai_message})
+    st.session_state['message_history'].append({'role' : 'assistant', 'content' : ai_message})
