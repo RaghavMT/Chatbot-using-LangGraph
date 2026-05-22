@@ -20,7 +20,12 @@ def add_thread(thread_id):
         st.session_state['chat_threads'].append(thread_id)
 
 def load_conversation(thread_id):
-    return chatbot.get_state(config={'configurable' : {'thread_id' : thread_id}}).values['messages']
+
+    state = chatbot.get_state(
+        config = {'configurable' : {'thread_id' : thread_id}}
+    )
+
+    return state.values.get('messages', [])
 
 #st.session is basically a dictoinory that saves previously run data
 
@@ -44,7 +49,7 @@ if st.sidebar.button("New Chat"):
 
 st.sidebar.header("My Conversations")
 
-for thread_id in st.session_state['chat_threads']:
+for thread_id in st.session_state['chat_threads'][::]:
     if st.sidebar.button(str(thread_id)):
         st.session_state['thread_id'] = thread_id
         messages = load_conversation(thread_id)
