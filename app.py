@@ -9,6 +9,11 @@ def generate_thread_id():
     thread_id = uuid.uuid4()
     return thread_id
 
+def reset_chat():
+    thread_id = generate_thread_id()
+    st.session_state['thread_id'] = thread_id
+    st.session_state['message_history'] = []
+    
 #st.session is basically a dictoinory that saves previously run data
 if 'message_history' not in st.session_state:
     st.session_state['message_history'] = []
@@ -19,9 +24,12 @@ if 'thread_id' not in st.session_state:
 #*****Side bar UI****
 st.sidebar.title("LangGraph Chatbot")
 
-st.sidebar.button("New Chat")
+if st.sidebar.button("New Chat"):
+    reset_chat()
 
 st.sidebar.header("My Conversations")
+
+st.sidebar.text(st.session_state['thread_id'])
 
 #loding the entire conversation history
 for message in st.session_state['message_history']:
@@ -50,6 +58,8 @@ if user_input:
     #we will now use streaming in python to smothen out our chatbot
 
     #we are using persistence so here we define our thread
+    #    CONFIG = {'configurable' : {'thread_id' : 'thread_1'}}
+#   now dynamically
     CONFIG = {'configurable' : {'thread_id' : st.session_state['thread_id']}}
 
 
@@ -60,7 +70,9 @@ if user_input:
             #and now we are iterating over these components to stream our output
             message_chunk.content for message_chunk, metadata in chatbot.stream(
                 {'messages' : [HumanMessage(content=user_input)]},
-                config=CONFIG,
+                #     config={'configurable' : {'thread_id' : 'thread-1'}},
+                #dynamically 
+                config = CONFIG,
                 stream_mode= 'messages'
             )
         )
