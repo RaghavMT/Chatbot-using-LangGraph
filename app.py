@@ -19,7 +19,11 @@ def add_thread(thread_id):
     if thread_id not in st.session_state['chat_threads']:
         st.session_state['chat_threads'].append(thread_id)
 
+def load_conversation(thread_id):
+    return chatbot.get_state(config={'configurable' : {'thread_id' : thread_id}}).values['messages']
+
 #st.session is basically a dictoinory that saves previously run data
+
 if 'message_history' not in st.session_state:
     st.session_state['message_history'] = []
 
@@ -30,7 +34,9 @@ if 'chat_threads' not in st.session_state:
     st.session_state['chat_threads'] = []
 
 add_thread(st.session_state['thread_id'])
+
 #*****Side bar UI****
+
 st.sidebar.title("LangGraph Chatbot")
 
 if st.sidebar.button("New Chat"):
@@ -38,9 +44,11 @@ if st.sidebar.button("New Chat"):
 
 st.sidebar.header("My Conversations")
 
-st.sidebar.text(st.session_state['thread_id'])
+for thread_id in st.session_state['chat_threads']:
+    st.sidebar.button(str(thread_id))
 
 #loding the entire conversation history
+
 for message in st.session_state['message_history']:
     with st.chat_message(message['role']):
         st.text(message['content'])
