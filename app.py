@@ -45,10 +45,26 @@ if st.sidebar.button("New Chat"):
 st.sidebar.header("My Conversations")
 
 for thread_id in st.session_state['chat_threads']:
-    st.sidebar.button(str(thread_id))
+    if st.sidebar.button(str(thread_id)):
+        st.session_state['thread_id'] = thread_id
+        messages = load_conversation(thread_id)
+
+        #we are doing this because the message loading require 'message_history'
+        #and that is in a different format 
+        # so we manually define the correct format
+         
+        temp_messages = []
+
+        for msg in messages:
+            if isinstance(msg, HumanMessage):
+                role='user'
+            else:
+                role='assistant'
+            temp_messages.append({'role' : role, 'content' : msg.content})
+        
+        st.session_state['message_history'] = temp_messages
 
 #loding the entire conversation history
-
 for message in st.session_state['message_history']:
     with st.chat_message(message['role']):
         st.text(message['content'])
