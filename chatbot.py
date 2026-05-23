@@ -101,12 +101,3 @@ chatbot = graph.compile(checkpointer=checkpointer)
 
 
 #now we are trying using sqlite
-
-CONFIG = {'configurable' : {'thread_id' : 'thread_1'}}
-
-response = chatbot.invoke(
-    {'messages' : [HumanMessage(content='how was weather during world war 2')]},
-    config=CONFIG
-)
-
-print(response)
