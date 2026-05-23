@@ -5,6 +5,8 @@ from langchain_core.messages import HumanMessage, BaseMessage
 from dotenv import load_dotenv
 import os
 from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.checkpoint.sqlite import SqliteSaver
+import sqlite3
 
 load_dotenv()
 
@@ -34,8 +36,14 @@ def chat_node(state: ChatState):
     #and we defined messages as list becuase we want to keep adding new messages in it
     return {'messages' : [response]}
 
-#this is something that will help our chatbot to remember past things
-checkpointer = InMemorySaver()
+#this is something that will help our chatbot to remember past things in RAM
+#checkpointer = InMemorySaver()
+
+#now we do it in sqlite
+conn = sqlite3.connect(database='chatbot.db', check_same_thread=False)
+
+checkpointer = SqliteSaver(conn=conn)
+
 
 #this is our main graph
 graph = StateGraph(ChatState)
@@ -48,6 +56,7 @@ graph.add_edge(START, 'chat_node')
 graph.add_edge('chat_node', END)
 
 chatbot = graph.compile(checkpointer=checkpointer)
+
 
 #thread is something while tells the chatbot which person's context are we talking about
 #so thread is basically a person 
@@ -89,3 +98,15 @@ chatbot = graph.compile(checkpointer=checkpointer)
    #             full_response += chunk
     #    
      #   print("\n")
+
+
+#now we are trying using sqlite
+
+CONFIG = {'configurable' : {'thread_id' : 'thread_1'}}
+
+response = chatbot.invoke(
+    {'messages' : [HumanMessage(content='how was weather during world war 2')]},
+    config=CONFIG
+)
+
+print(response)
