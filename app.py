@@ -1,5 +1,5 @@
 import streamlit as st
-from chatbot import chatbot
+from chatbot import chatbot, rereieve_all_threads
 from langchain_core.messages import HumanMessage
 import uuid
 
@@ -36,7 +36,10 @@ if 'thread_id' not in st.session_state:
     st.session_state['thread_id'] = generate_thread_id()
 
 if 'chat_threads' not in st.session_state:
-    st.session_state['chat_threads'] = []
+#    st.session_state['chat_threads'] = []
+# now it check if there is a thread in database then it will consider it
+# and print that, so our history is basically stored
+    st.session_state['chat_threads'] = rereieve_all_threads()
 
 add_thread(st.session_state['thread_id'])
 
