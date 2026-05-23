@@ -100,4 +100,11 @@ chatbot = graph.compile(checkpointer=checkpointer)
      #   print("\n")
 
 
-#now we are trying using sqlite
+def rereieve_all_threads():
+    #checking if a thread already exit then we will show it
+    all_threads = set()
+
+    for checkpoint in checkpointer.list(None):
+        all_threads.add(checkpoint.config['configurable']['thread_id'])
+
+    return list(all_threads)
