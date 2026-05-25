@@ -82,6 +82,16 @@ chatbot = graph.compile(checkpointer=checkpointer)
 
     #    print('AI:' , response['messages'][-1].content)
         
+
+
+
+
+
+
+
+
+
+        
         #trying to implement it using streaming
   #      full_response = ""
 #
