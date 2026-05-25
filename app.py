@@ -104,13 +104,6 @@ if user_input:
 #   now dynamically
     CONFIG = {'configurable' : {'thread_id' : st.session_state['thread_id']}}
 
-
-
-
-
-
-
-
     with st.chat_message('assistant'):
 
         ai_message = st.write_stream(
