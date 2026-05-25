@@ -80,6 +80,9 @@ for message in st.session_state['message_history']:
 user_input = st.chat_input('Type here')
 
 
+
+
+
 if user_input:
 
     #firstly add the message to message_history
