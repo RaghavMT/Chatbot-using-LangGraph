@@ -81,17 +81,8 @@ chatbot = graph.compile(checkpointer=checkpointer)
     #    response = chatbot.invoke({'messages': [HumanMessage(content= user_message)]}, config=config)
 
     #    print('AI:' , response['messages'][-1].content)
-        
 
-
-
-
-
-
-
-
-
-        
+    
         #trying to implement it using streaming
   #      full_response = ""
 #
