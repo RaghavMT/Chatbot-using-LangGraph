@@ -89,11 +89,6 @@ chatbot = graph.compile(checkpointer=checkpointer)
  #       for message_chunk, metadata in chatbot.stream(
   #          {'messages':[HumanMessage(content=user_message)]},
    #         config={'configurable' : {'thread_id' : 'thread_1'}},
-
-
-
-
-   
     #        stream_mode='messages'
      #   ):
 #
