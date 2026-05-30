@@ -69,6 +69,11 @@ def get_stock_price(symbol: str) -> dict:
     return r.json()
 
 
+tools = [search_tool, calculator, get_stock_price]
+llm_with_tools = llm.bind_tools(tools)
+
+
+
 
 def chat_node(state: ChatState):
 
