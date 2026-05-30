@@ -72,7 +72,7 @@ def get_stock_price(symbol: str) -> dict:
 tools = [search_tool, calculator, get_stock_price]
 llm_with_tools = llm.bind_tools(tools)
 
-
+tool_node = ToolNode(tools)
 
 
 def chat_node(state: ChatState):
@@ -102,10 +102,12 @@ graph = StateGraph(ChatState)
 
 #adding nodes
 graph.add_node('chat_node', chat_node)
+graph.add_node('tools', tool_node)
 
 #adding edges
 graph.add_edge(START, 'chat_node')
-graph.add_edge('chat_node', END)
+graph.add_conditional_edges("chat_node", tools_condition)
+graph.add_edge('tools', END)
 
 chatbot = graph.compile(checkpointer=checkpointer)
 
