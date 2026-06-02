@@ -83,6 +83,67 @@ def chat_node(state: ChatState):
     #send it to llm
     response = llm_with_tools.invoke(messages)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+awfonoegnsigd
+sgaonhsgnpsgs
+oisdngoenfondfinf
+sonfaiosfioajfioajsfoiajfoiajf
+
+
+oasfjasiosijfoaiijf
     #store the response
     #we pass it in a list because we have defined messages as a list in our chatstate
     #and we defined messages as list becuase we want to keep adding new messages in it
